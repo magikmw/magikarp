@@ -78,7 +78,7 @@ while True:
         if message.lower().find('awesome') != -1 and not function.find('^') != -1: #split the massage to get function name:
             nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
-            irc.send('PRIVMSG ' + destination + ' : Yeah ' + nick + '! Awesome!\r\n')
+            irc.send('PRIVMSG ' + destination + ' :Yeah ' + nick + '! Awesome!\r\n')
 
         if ContainsAny(message, ['http', 'http', 'www', '.com', '.org', '.eu']) == 1:
             nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
@@ -100,13 +100,13 @@ while True:
 
             if args != '':
                 fileObj = open(FILEDIR + "/botlinks", "a")
-                fileObj.write('['+destination+'] '+ CurrentTimeString() + nick + ': ')
+                fileObj.write('['+destination+'] '+ CurrentTimeString() + ' ' + nick + ': ')
                 for i in args:
                     fileObj.write(i)
                 fileObj.close()
 
         if message.lower().find('^') != -1: #if the message contains the chan name
-            nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
+            nick = data.split('!')[ 0 ].replace(':','') #snatch the nick issuing the command
             print('nick: ' + nick)
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
             print('dest: ' + destination)
@@ -130,7 +130,7 @@ while True:
             elif function == '^say':
                 if args != '':
                     #irc.send('PRIVMSG ' + destination + ' :' + args + '\r\n')
-                    irc.send('PRIVMSG ' + destination + " : I'm sorry" + nick + ", but I cannot let you do that.\r\n")
+                    irc.send('PRIVMSG ' + destination + " : I'm sorry " + nick + ", but I cannot let you do that.\r\n")
                 else:
                     irc.send('PRIVMSG ' + destination + ' : What do you want me to say, ' + nick + '?\r\n')
 
