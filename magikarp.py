@@ -2,8 +2,24 @@
 # -*- coding: utf-8 -*-
 
 import socket
+from os import getenv
+from datetime import datetime
+from time import timezone
 
-DEBUG = False
+FILEDIR = getenv("HOME")
+
+def ContainsAny(str, set):
+    """Check whether 'str' contains ANY of the chars in 'set'"""
+    for c in set:
+        if c in str: return 1
+    return 0
+
+def CurrentTimeString():
+    now = datetime.now()
+    string = str(now.year) + "-" + str(now.month) + "-" + str(now.day) + " " + str(now.hour) + ":" + str(now.minute)
+    return string
+
+DEBUG = True
 
 NICK = 'magikarp'
 NETWORK = 'irc.quakenet.org'
@@ -12,7 +28,7 @@ PORT = 6667
 if DEBUG == True:
     CHAN = '#mbot'
 elif DEBUG == False:
-    CHAN = '#rgrd-ot'
+    CHAN = '#rgrd'
 
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -37,7 +53,6 @@ while True:
         irc.send('PONG ' + data.split()[1] + '\r\n')
 
     elif data.find('PRIVMSG') != -1: #if there is a PRIVMSG in data then parse it
-        print('PRIVMSG')
         message = ':'.join(data.split(':')[2:]) #split the command from the message
         print(message)
 
@@ -47,6 +62,31 @@ while True:
             nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
             irc.send('PRIVMSG ' + destination + ' : Yeah ' + nick + '! Awesome!\r\n')
+
+        if ContainsAny(message, ['http', 'http', 'www', '.com', '.org', '.eu']) == 1:
+            nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
+            destination = ''.join (data.split(':')[:2]).split (' ')[-2]
+            arg = data.split( )
+            args = []
+            for index,item in enumerate(arg): #for every index and item in arg
+                if index > 2 and ContainsAny(item, ['http', 'http', 'www', '.com', '.org', '.eu']) == 1:
+                    n=1
+                    if args == []:
+                        item = (item.split(':', 1)[1])
+                        args.append(item)
+                    else:
+                        args.append(' ' + item)
+                        n += 1
+
+            args.append('\n')
+            print args
+
+            if args != '':
+                fileObj = open(FILEDIR + "/botlinks", "a")
+                fileObj.write('['+destination+'] '+ CurrentTimeString() + nick + ': ')
+                for i in args:
+                    fileObj.write(i)
+                fileObj.close()
 
         if message.lower().find('^') != -1: #if the message contains the chan name
             nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
@@ -70,8 +110,11 @@ while True:
             if function == '^credits': #if function is equal to ^credits
                 irc.send('PRIVMSG ' + destination + ' :' + nick + ': I was coded by magikmw\r\n')
 
-            if function == '.say':
+            elif function == '^say':
                 if args != '':
                     irc.send('PRIVMSG ' + destination + ' :' + args + '\r\n')
                 else:
                     irc.send('PRIVMSG ' + destination + ' : What do you want me to say, ' + nick + '?\r\n')
+
+            elif function == '^time':
+                irc.send('PRIVMSG ' + destination + ' :' + nick + ': The current time is: ' + CurrentTimeString() + ' GMT' + str(timezone / 60 / 60) +'\r\n')
