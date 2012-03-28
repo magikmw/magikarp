@@ -15,6 +15,7 @@ DEVNOTES
 [TODO] Comment the code
 [TODO] Readme, document the commands
 [TODO] Config file
+[TODO] Runtime command line.
 """
 
 import socket
@@ -62,7 +63,7 @@ while True:
     # Basic init commands after server connection
     if data.find('MODE ' + NICK + ' +i') != -1:
         irc.send('JOIN ' + CHAN + '\r\n')
-        irc.send('PRIVMSG ' + CHAN + ' :Morning, ' + CHAN + '\r\n')
+        #irc.send('PRIVMSG ' + CHAN + ' :Morning, ' + CHAN + '\r\n')
 
     # Constant ping lookout
     if data.find('PING') != -1:
@@ -88,7 +89,7 @@ while True:
                 if index > 2 and ContainsAny(item, ['http', 'http', 'www', '.com', '.org', '.eu']) == 1:
                     n=1
                     if args == []:
-                        item = (item.split(':', 1)[1])
+                        #item = (item.split(':', 1)[1])
                         args.append(item)
                     else:
                         args.append(' ' + item)
@@ -128,14 +129,18 @@ while True:
 
             elif function == '^say':
                 if args != '':
-                    irc.send('PRIVMSG ' + destination + ' :' + args + '\r\n')
+                    #irc.send('PRIVMSG ' + destination + ' :' + args + '\r\n')
+                    irc.send('PRIVMSG ' + destination + " : I'm sorry" + nick + ", but I cannot let you do that.\r\n")
                 else:
                     irc.send('PRIVMSG ' + destination + ' : What do you want me to say, ' + nick + '?\r\n')
 
             elif function == '^time':
                 tz = altzone / 60 / 60
-                if tz < 0 or tz > 0:
-                    str(tz = tz * -1)
+                tz = tz * -1
+                if tz < 0:
+                    tz = '+' + str(tz)
+                elif tz > 0:
+                    tz = '-' + str(abs(tz))
                 elif tz == 0:
                     tz = ''
-                irc.send('PRIVMSG ' + destination + ' :' + nick + ': The current time is: ' + CurrentTimeString() + ' GMT' + tz +'\r\n')
+                irc.send('PRIVMSG ' + destination + ' :' + nick + ': The current time is: ' + CurrentTimeString() + ' GMT' + str(tz) +'\r\n')
