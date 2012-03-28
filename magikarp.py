@@ -3,7 +3,7 @@
 
 import socket
 
-DEBUG = True
+DEBUG = False
 
 NICK = 'magikarp'
 NETWORK = 'irc.quakenet.org'
@@ -32,7 +32,7 @@ while True:
         irc.send('JOIN ' + CHAN + '\r\n')
         irc.send('PRIVMSG ' + CHAN + ' :Morning, ' + CHAN + '\r\n')
 
-    # Contant ping lookout
+    # Constant ping lookout
     if data.find('PING') != -1:
         irc.send('PONG ' + data.split()[1] + '\r\n')
 
@@ -43,12 +43,12 @@ while True:
 
         function = message.split( )[0] #split the massage to get function name
 
-        if message.lower().find('awesome') != -1 and not function.find('.') != -1: #split the massage to get function name:
+        if message.lower().find('awesome') != -1 and not function.find('^') != -1: #split the massage to get function name:
             nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
             irc.send('PRIVMSG ' + destination + ' : Yeah ' + nick + '! Awesome!\r\n')
 
-        if message.lower().find('.') != -1: #if the message contains the chan name
+        if message.lower().find('^') != -1: #if the message contains the chan name
             nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
             print('nick: ' + nick)
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
@@ -67,7 +67,7 @@ while True:
                         args += ' ' + item
             print(args)
 
-            if function == '.credits': #if function is equal to .credits
+            if function == '^credits': #if function is equal to ^credits
                 irc.send('PRIVMSG ' + destination + ' :' + nick + ': I was coded by magikmw\r\n')
 
             if function == '.say':
