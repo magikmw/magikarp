@@ -76,12 +76,12 @@ while True:
         function = message.split( )[0] #split the massage to get function name
 
         if message.lower().find('awesome') != -1 and not function.find('^') != -1: #split the massage to get function name:
-            nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
+            nick = data.split('!')[ 0 ].replace(':','') #snatch the nick issuing the command
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
             irc.send('PRIVMSG ' + destination + ' :Yeah ' + nick + '! Awesome!\r\n')
 
         if ContainsAny(message, ['http', 'http', 'www', '.com', '.org', '.eu']) == 1:
-            nick = data.split('!')[ 0 ].replace(':',' ') #snatch the nick issuing the command
+            nick = data.split('!')[ 0 ].replace(':','') #snatch the nick issuing the command
             destination = ''.join (data.split(':')[:2]).split (' ')[-2]
             arg = data.split( )
             args = []
