@@ -20,7 +20,7 @@ DEVNOTES
 import socket
 from os import getenv
 from datetime import datetime
-from time import timezone
+from time import altzone
 
 FILEDIR = getenv('USERPROFILE') or getenv('HOME')
 
@@ -133,6 +133,9 @@ while True:
                     irc.send('PRIVMSG ' + destination + ' : What do you want me to say, ' + nick + '?\r\n')
 
             elif function == '^time':
-                #tz = str(timezone / 60 / 60)
-                tz = +2
+                tz = altzone / 60 / 60
+                if tz < 0 or tz > 0:
+                    str(tz = tz * -1)
+                elif tz == 0:
+                    tz = ''
                 irc.send('PRIVMSG ' + destination + ' :' + nick + ': The current time is: ' + CurrentTimeString() + ' GMT' + tz +'\r\n')
