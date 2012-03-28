@@ -1,12 +1,28 @@
 #! /usr/bin/env python2
 # -*- coding: utf-8 -*-
 
+"""Simple bot created with various IRC bot tutorials I've found on the web.
+Docs to be created yet"""
+
+"""
+DEVNOTES
+[TODO] ^weather command
+[TODO] ^quit, ^join commands
+[TODO] ^changename command
+[TODO] Link grab toggle per channel
+[XXX] Make parsing better (check http://www.osix.net/modules/article/?id=780)
+[XXX] OOP the thing, make plugin components possible
+[TODO] Comment the code
+[TODO] Readme, document the commands
+[TODO] Config file
+"""
+
 import socket
 from os import getenv
 from datetime import datetime
 from time import timezone
 
-FILEDIR = getenv("HOME")
+FILEDIR = getenv('USERPROFILE') or getenv('HOME')
 
 def ContainsAny(str, set):
     """Check whether 'str' contains ANY of the chars in 'set'"""
@@ -19,9 +35,9 @@ def CurrentTimeString():
     string = str(now.year) + "-" + str(now.month) + "-" + str(now.day) + " " + str(now.hour) + ":" + str(now.minute)
     return string
 
-DEBUG = True
+DEBUG = False
 
-NICK = 'magikarp'
+NICK = 'magiqarp'
 NETWORK = 'irc.quakenet.org'
 PORT = 6667
 
@@ -108,7 +124,7 @@ while True:
             print(args)
 
             if function == '^credits': #if function is equal to ^credits
-                irc.send('PRIVMSG ' + destination + ' :' + nick + ': I was coded by magikmw\r\n')
+                irc.send('PRIVMSG ' + destination + ' :' + nick + ": I'm developed by magikmw - http://github.com/magikmw/magikarp \r\n")
 
             elif function == '^say':
                 if args != '':
@@ -117,4 +133,6 @@ while True:
                     irc.send('PRIVMSG ' + destination + ' : What do you want me to say, ' + nick + '?\r\n')
 
             elif function == '^time':
-                irc.send('PRIVMSG ' + destination + ' :' + nick + ': The current time is: ' + CurrentTimeString() + ' GMT' + str(timezone / 60 / 60) +'\r\n')
+                #tz = str(timezone / 60 / 60)
+                tz = +2
+                irc.send('PRIVMSG ' + destination + ' :' + nick + ': The current time is: ' + CurrentTimeString() + ' GMT' + tz +'\r\n')
