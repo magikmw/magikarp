@@ -1,7 +1,9 @@
 #! /usr/bin/env python2
 # -*- coding: utf-8 -*-
 
-"""Simple bot created with various IRC bot tutorials I've found on the web.
+"""A simple IRCbot.
+
+Created with various tutorials I've found on the web.
 Docs to be created yet"""
 
 """
@@ -15,7 +17,7 @@ DEVNOTES
 [TODO] Comment the code
 [TODO] Readme, document the commands
 [TODO] Config file
-[TODO] Runtime command line.
+[TODO] Runtime command line (basically an IRC client functionality).
 """
 
 import socket
@@ -23,7 +25,7 @@ from os import getenv
 from datetime import datetime
 from time import altzone
 
-FILEDIR = getenv('USERPROFILE') or getenv('HOME')
+FILEDIR = getenv('USERPROFILE') or getenv('HOME') # Set home dir location
 
 def ContainsAny(str, set):
     """Check whether 'str' contains ANY of the chars in 'set'"""
@@ -32,10 +34,12 @@ def ContainsAny(str, set):
     return 0
 
 def CurrentTimeString():
+    """Produces a string of YYYY-MM-DD HH:MM:SS""" 
     now = datetime.now()
     string = str(now.year) + "-" + str(now.month) + "-" + str(now.day) + " " + str(now.hour) + ":" + str(now.minute)
     return string
 
+# [TODO] Move all below to a config file
 DEBUG = False
 
 NICK = 'magiqarp'
@@ -46,6 +50,7 @@ if DEBUG == True:
     CHAN = '#mbot'
 elif DEBUG == False:
     CHAN = '#rgrd'
+# up to this point
 
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -53,9 +58,11 @@ irc.connect((NETWORK,PORT))
 
 #receive buffer, and connect setup
 irc.recv(4096) #rcv buffer
+# [TODO] following 2 lines should also go to the config
 irc.send('NICK ' + NICK + '\r\n')
 irc.send('USER magikarp magikarp magikarp :magikarp\r\n')
 
+# main loop
 while True:
     data = irc.recv(4096) # get lines
     print(data) #print lines
