@@ -14,6 +14,9 @@ if __name__ == "__main__":
 
 from log import logg
 
+# Main imports below
+from config import *
+
 class Bot():
     """The main loop class."""
 
@@ -21,4 +24,6 @@ class Bot():
         logg.info('Init: Bot')
 
     def run(self):
+        """Starts the loop"""
+        print(NICK)
         print("Bot.run()")

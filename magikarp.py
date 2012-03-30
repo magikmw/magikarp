@@ -1,7 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""A simple IRCbot"""
+"""A simple IRCbot
+
+Created with various tutorial I've found on the internets
+by Michał Walczak
+"""
+
+"""
+DEVNOTES
+[TODO] ^weather command
+[TODO] ^quit, ^join commands
+[TODO] ^changename command
+[TODO] Link grab toggle per channel
+[XXX] Make parsing better (check http://www.osix.net/modules/article/?id=780)
+[XXX] OOP the thing, make plugin components possible
+[TODO] Comment the code
+[TODO] Readme, document the commands
+[TODO] Config file
+[TODO] Runtime command line (basically an IRC client functionality).
+"""
 
 import sys, getopt
 
