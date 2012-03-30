@@ -4,7 +4,9 @@
 """Debug loging function"""
 
 def test():
-    print "Testing {0}.py".format(__name__)
+    from inspect import currentframe, getframeinfo
+    file = getframeinfo(currentframe())
+    print "Testing {0}".format(file.filename)
     exit("Test complete")
 
 if __name__ == "__main__":
