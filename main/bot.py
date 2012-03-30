@@ -18,7 +18,7 @@ class Bot():
     """The main loop class."""
 
     def __init__(self):
-        print("Bot imported properly!")
+        logg.info('Init: Bot')
 
     def run(self):
         print("Bot.run()")
