@@ -6,12 +6,23 @@
 For now contains only constant values but config parsing is planned
 Later maybe even an options menu"""
 
+def test():
+    from inspect import currentframe, getframeinfo
+    file = getframeinfo(currentframe())
+    print "Testing {0}".format(file.filename)
+    exit("Test complete")
+
+if __name__ == "__main__":
+    test()
+
+from log import logg
+
 # Home dir for ''botlinks'' file
 from os import getenv
 
 FILEDIR = getenv('USERPROFILE') or getenv('HOME')
 
-DEBUG = False
+DEBUG = True
 
 NICK = 'magiqarp'
 NETWORK = 'irc.quakenet.org'
