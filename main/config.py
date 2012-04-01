@@ -24,9 +24,16 @@ FILEDIR = getenv('USERPROFILE') or getenv('HOME')
 
 DEBUG = True
 
-NICK = 'magiqarp'
+REALNAME = 'magikarp'
+USER = 'magikarp'
+NICK = 'magikarp'
 NETWORK = 'irc.quakenet.org'
 PORT = 6667
+
+
+CHANNELS = ("#mbot", )
+GITHUB = "http://github.com/RedMike/pymicroirc"
+OWNER = "magikmw"
 
 if DEBUG == True:
     CHAN = '#mbot'

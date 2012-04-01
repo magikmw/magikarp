@@ -42,8 +42,10 @@ def main():
 
 if __name__ == "__main__":
     main()
-    from main import Bot
-    Bot().run()
+    from main import *
+    b = Bot(NETWORK, PORT, USER, REALNAME, NICK, DEBUG)
+    while not b.quitting:
+        b.update()
 else:
     print("This module is not importable.")
 
